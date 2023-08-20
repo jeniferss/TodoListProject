@@ -17,7 +17,7 @@ public class UpdateTask {
         System.out.println("Digite 3 para EDITAR A DATA DE EXPIRAÇÃO DA TAREFA.");
         System.out.println("Digite 4 para EDITAR O STATUS DA TAREFA.");
         System.out.println("Digite 5 para EDITAR A CATEGORIA DA TAREFA.");
-        System.out.println("Digite 6 para EDITAR O NÍVEL DE PRIORIDADE DA TAREFA.");
+        System.out.println("Digite 6 para EDITAR O NIVEL DE PRIORIDADE DA TAREFA.");
 
     }
 

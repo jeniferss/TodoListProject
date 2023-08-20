@@ -17,7 +17,7 @@ public class TodoList {
         System.out.println("Digite 2 para ALTERAR UMA TAREFA.");
         System.out.println("Digite 3 para DELETAR UMA TAREFA.");
         System.out.println("Digite 4 para MOSTRAR TODAS AS TAREFAS POR DATA.");
-        System.out.println("Digite 5 para MOSTRAR TODAS AS TAREFAS POR NÍVEL DE PRIORIDADE.");
+        System.out.println("Digite 5 para MOSTRAR TODAS AS TAREFAS POR NIVEL DE PRIORIDADE.");
         System.out.println("Digite 6 para MOSTRAR TODAS AS TAREFAS POR STATUS.");
         System.out.println("Digite 7 para MOSTRAR TODAS AS TAREFAS POR CATEGORIA.");
         System.out.println("Digite 8 para MOSTAR O NÚMERO DE TAREFAS POR STATUS.");
