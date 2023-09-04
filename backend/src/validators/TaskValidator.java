@@ -58,12 +58,4 @@ public class TaskValidator {
         return allowedCategories.contains(status);
     }
 
-    public boolean changeAttributeValue(Object oldValue, Object newValue) {
-        return !oldValue.equals(newValue) && !(newValue == null);
-    }
-
-    public boolean changeIntAttributeValue(Integer oldValue, Integer newValue) {
-        return !oldValue.equals(newValue) && !(newValue == 0);
-    }
-
 }
