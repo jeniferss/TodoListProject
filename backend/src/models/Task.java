@@ -3,7 +3,6 @@ package models;
 import java.time.LocalDate;
 
 public class Task {
-
     private int id;
     private String title;
     private String description;
@@ -11,20 +10,6 @@ public class Task {
     private String status;
     private String category;
     private int priorityLevel;
-
-    public static Task createTask(int id, String title, String description, LocalDate dueDate, String status, String category, int priorityLevel) {
-
-        Task task = new Task();
-        task.setId(id);
-        task.setTitle(title);
-        task.setDescription(description);
-        task.setDueDate(dueDate);
-        task.setStatus(status);
-        task.setCategory(category);
-        task.setPriorityLevel(priorityLevel);
-
-        return task;
-    }
 
     @Override
     public String toString() {

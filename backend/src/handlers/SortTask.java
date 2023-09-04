@@ -1,13 +1,15 @@
 package handlers;
 
-import app.TodoList;
 import models.Task;
 
 import java.time.LocalDate;
 import java.util.*;
 
 public class SortTask {
-    public static Map<Integer, Task> byDueDate(Map<Integer, Task> tasks) {
+
+    private final FilterTask filterTask = new FilterTask();
+
+    static Map<Integer, Task> byDueDate(Map<Integer, Task> tasks) {
 
         Map<Integer, Task> reversedTasks = new LinkedHashMap<>();
 
@@ -22,29 +24,12 @@ public class SortTask {
         }
 
         return reversedTasks;
-
     }
 
-    public static Map<Integer, Task> byPriorityLevel() {
-
-        Map<Integer, Task> sortedTasks = new LinkedHashMap<>();
-
-        for (int priorityLevel = 5; priorityLevel > 0; priorityLevel--) {
-            Map<Integer, Task> currentTasks = FilterTask.byPriorityLevel(Integer.toString(priorityLevel));
-            if (!currentTasks.isEmpty()) {
-                currentTasks = byDueDate(currentTasks);
-                sortedTasks.putAll(currentTasks);
-            }
-        }
-
-        return sortedTasks;
-
-    }
-
-    public static int getIndexToInsert(int priorityLevel, LocalDate dueDate) {
+    public int getIndexToInsert(int priorityLevel, LocalDate dueDate, Map<Integer, Task> tasks) {
         int index = 0;
 
-        Map<Integer, Task> sortedTasks = byPriorityLevel();
+        Map<Integer, Task> sortedTasks = byPriorityLevel(tasks);
         List<Task> tasksAsList = new ArrayList<>(sortedTasks.values());
 
         boolean canCompare = true;
@@ -70,25 +55,40 @@ public class SortTask {
         return index;
     }
 
-    public static void insertObjectAndReorder(int indexPosition, Task task) {
-        Map<Integer, Task> sortedTasks = byPriorityLevel();
+    public void insertObjectAndReorder(int indexPosition, Task task, Map<Integer, Task> tasks) {
+        Map<Integer, Task> sortedTasks = byPriorityLevel(tasks);
+
         List<Task> tasksAsList = new ArrayList<>(sortedTasks.values());
 
-        Map<Integer, Task> finalTasks = new LinkedHashMap<>();
+        tasks.clear();
 
         for (int index = 0; index < indexPosition; index++) {
-            finalTasks.put(tasksAsList.get(index).getId(), tasksAsList.get(index));
+            tasks.put(tasksAsList.get(index).getId(), tasksAsList.get(index));
         }
 
-        finalTasks.put(task.getId(), task);
+        tasks.put(task.getId(), task);
 
         if (indexPosition < tasksAsList.size()) {
             for (int index = indexPosition; index < tasksAsList.size(); index++) {
-                finalTasks.put(tasksAsList.get(index).getId(), tasksAsList.get(index));
+                tasks.put(tasksAsList.get(index).getId(), tasksAsList.get(index));
             }
         }
 
-        TodoList.tasks = finalTasks;
+    }
 
+    public Map<Integer, Task> byPriorityLevel(Map<Integer, Task> tasks) {
+
+        Map<Integer, Task> sortedTasks = new LinkedHashMap<>();
+
+        for (int priorityLevel = 5; priorityLevel > 0; priorityLevel--) {
+            Map<Integer, Task> currentTasks = filterTask.byPriorityLevel(priorityLevel, tasks);
+
+            if (!currentTasks.isEmpty()) {
+                currentTasks = byDueDate(currentTasks);
+                sortedTasks.putAll(currentTasks);
+            }
+        }
+
+        return sortedTasks;
     }
 }
