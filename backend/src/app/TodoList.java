@@ -1,8 +1,10 @@
 package app;
 
 import common.UserInput;
+import handlers.AlarmHandler;
 import handlers.FileHandler;
 import handlers.TaskHandler;
+import models.Alarm;
 import models.Task;
 
 import java.util.LinkedHashMap;
@@ -10,10 +12,13 @@ import java.util.Map;
 
 public class TodoList {
     public static Map<Integer, Task> tasks = new LinkedHashMap<>();
+    public static Map<Integer, Alarm> alarms = new LinkedHashMap<>();
 
     private final UserInput userInput = new UserInput();
     private final TaskHandler taskHandler = new TaskHandler();
+    private final AlarmHandler alarmHandler = new AlarmHandler();
     private final FileHandler fileHandler = new FileHandler();
+
     private boolean isApplicationRunning = true;
 
     public String menuText() {
@@ -35,6 +40,9 @@ public class TodoList {
     public void executeApplication() {
         while (isApplicationRunning) {
             fileHandler.readTasks(TodoList.tasks, taskHandler);
+            fileHandler.readAlarms(TodoList.alarms, alarmHandler);
+
+            alarmHandler.displayAlarms(TodoList.alarms, TodoList.tasks);
 
             String action = userInput.read(menuText());
             switch (action) {
@@ -44,7 +52,7 @@ public class TodoList {
                     break;
                 case "1":
                     try {
-                        taskHandler.readUserInputAndCreateTask(TodoList.tasks);
+                        taskHandler.readUserInputAndCreateTask(TodoList.tasks, TodoList.alarms);
                     } catch (Exception error) {
                         System.out.println(error.getMessage());
                     }
@@ -58,7 +66,7 @@ public class TodoList {
                     break;
                 case "3":
                     try {
-                        taskHandler.readUserInputAndDeleteTask(TodoList.tasks);
+                        taskHandler.readUserInputAndDeleteTask(TodoList.tasks, TodoList.alarms);
                     } catch (Exception error) {
                         System.out.println(error.getMessage());
                     }
@@ -104,6 +112,7 @@ public class TodoList {
             }
 
             fileHandler.saveTasks(TodoList.tasks);
+            fileHandler.saveAlarms(TodoList.alarms);
         }
     }
 

@@ -1,20 +1,20 @@
-package handlers;
+package validators;
 
+import common.Validator;
 import models.Task;
-import validators.TaskValidator;
 
 import java.time.LocalDate;
 import java.util.Map;
 
-public class TaskAttributesHandler {
+public class TaskInput {
     private final String dateFormat = "dd-MM-yyyy";
-    private final TaskValidator validator = new TaskValidator();
+    private final Validator validator = new Validator();
 
     public Integer handleTaskId(String idString, Map<Integer, Task> tasks) throws Exception {
 
         if (validator.isAIntString(idString)) {
             Integer taskId = validator.parseStringAsInt(idString);
-            if (validator.isTaskIdValid(taskId, tasks)) {
+            if (validator.isIdValid(taskId, tasks)) {
                 return taskId;
             }
         }

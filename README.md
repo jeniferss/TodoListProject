@@ -16,7 +16,9 @@ The purpose of the application is to make it possible to list activities to be d
 
 1. It must allow setting alerts for Tasks;
 2. It needs to have at least one CRUD operation for Tasks (create, list, delete, update);
-3. It must be web-based.
+3. It must be web-based;
+4. Implement the option of alarms for tasks;
+5. Trigger the alarm notification when the set period arrives.
 
 ## Technologies
 ***
