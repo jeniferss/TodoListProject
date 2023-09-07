@@ -5,9 +5,9 @@ import models.Task;
 import java.time.LocalDate;
 import java.util.*;
 
-public class SortTask {
+public class Sorter {
 
-    private final FilterTask filterTask = new FilterTask();
+    private final Filterer filterer = new Filterer();
 
     static Map<Integer, Task> byDueDate(Map<Integer, Task> tasks) {
 
@@ -81,7 +81,7 @@ public class SortTask {
         Map<Integer, Task> sortedTasks = new LinkedHashMap<>();
 
         for (int priorityLevel = 5; priorityLevel > 0; priorityLevel--) {
-            Map<Integer, Task> currentTasks = filterTask.byPriorityLevel(priorityLevel, tasks);
+            Map<Integer, Task> currentTasks = filterer.byPriorityLevel(priorityLevel, tasks);
 
             if (!currentTasks.isEmpty()) {
                 currentTasks = byDueDate(currentTasks);

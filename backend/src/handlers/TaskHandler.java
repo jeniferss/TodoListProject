@@ -1,24 +1,26 @@
 package handlers;
 
 import common.UserInput;
+import models.Alarm;
 import models.Task;
+import validators.TaskInput;
 
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Map;
 
 public class TaskHandler {
-    private final SortTask sorter = new SortTask();
-    private final FilterTask filterer = new FilterTask();
-
+    private final Sorter sorter = new Sorter();
+    private final Filterer filterer = new Filterer();
+    private final AlarmHandler alarmHandler = new AlarmHandler();
     private final UserInput userInput = new UserInput();
-    private final TaskAttributesHandler validator = new TaskAttributesHandler();
+    private final TaskInput validator = new TaskInput();
 
     public int generateTaskId(Map<Integer, Task> tasks) {
         return tasks.keySet().isEmpty() ? 1 : Collections.max(tasks.keySet()) + 1;
     }
 
-    public void readUserInputAndCreateTask(Map<Integer, Task> tasks) throws Exception {
+    public void readUserInputAndCreateTask(Map<Integer, Task> tasks, Map<Integer, Alarm> alarms) throws Exception {
 
         int id = generateTaskId(tasks);
 
@@ -39,6 +41,11 @@ public class TaskHandler {
 
         Task task = create(id, title, description, dueDate, status, category, priorityLevel);
         insert(task, tasks);
+
+        String enableAlarm = userInput.read("A tarefa vai ter alarme? [S] [N]");
+        if (enableAlarm.equals("S")) {
+            alarmHandler.readUserInputAndCreateAlarm(task, alarms);
+        }
     }
 
     public void readUserInputAndUpdateTask(Map<Integer, Task> tasks) throws Exception {
@@ -85,10 +92,17 @@ public class TaskHandler {
         update(id, task, tasks);
     }
 
-    public void readUserInputAndDeleteTask(Map<Integer, Task> tasks) throws Exception {
+    public void readUserInputAndDeleteTask(Map<Integer, Task> tasks, Map<Integer, Alarm> alarms) throws Exception {
         String idString = userInput.read("Digite o ID da tarefa que deseja exlcuir: ");
         Integer id = validator.handleTaskId(idString, tasks);
         delete(id, tasks);
+
+        // delete its alarms
+        Map<Integer, Alarm> taskAlarms = filterer.byTaskId(id, alarms);
+        for (Alarm alarm : taskAlarms.values()) {
+            alarmHandler.delete(alarm.getId(), alarms);
+        }
+
     }
 
     public void readUserInputAndFilterByDueDate(Map<Integer, Task> tasks) throws Exception {
