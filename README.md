@@ -8,6 +8,7 @@ The purpose of the application is to make it possible to list activities to be d
 2. [Technologies](#technologies)
 3. [Installation](#installation)
 4. [Running](#running)
+5. [Testing](#testing)
 
 ## About
 ***
@@ -52,3 +53,18 @@ $ java Main
 ### Frontend
 1. Go to todo-list > frontend > scr 
 2. Open the index.html file
+
+## Testing
+***
+
+Unit tests play an important role in early bug detection by isolating specific parts of code for testing, enabling developers to rectify issues before they spread system-wide. Simultaneously, they prompt developers to contemplate code functionality and behavior, fostering the development of cleaner, modular, and sustainable code aligned with best practices and design principles.
+
+* Mandatory requirements:
+1. In your TODO List application, a CRUD (create, read, update, and delete) logic has been developed. Create unit tests for each of these actions.
+
+```bash
+$ cd backend
+$ cd src
+$ cd test
+$ javac RunTest
+$ java RunTest
